@@ -11,6 +11,7 @@ module FactoryBot
       @name = name.respond_to?(:to_sym) ? name.to_sym : name.to_s.underscore.to_sym
       @parent = options[:parent]
       @aliases = options[:aliases] || []
+      @abstract = options[:abstract] || false
       @class_name = options[:class]
       @definition = Definition.new(@name, options[:traits] || [])
       @compiled = false
@@ -20,6 +21,8 @@ module FactoryBot
       :defined_traits, :inherit_traits, :append_traits, to: :@definition
 
     def build_class
+      return if @abstract
+
       @build_class ||= if class_name.is_a? Class
         class_name
       else
@@ -99,6 +102,7 @@ module FactoryBot
     protected
 
     def class_name
+      return if @abstract
       @class_name || parent.class_name || name
     end
 
@@ -140,7 +144,7 @@ module FactoryBot
     private
 
     def assert_valid_options(options)
-      options.assert_valid_keys(:class, :parent, :aliases, :traits)
+      options.assert_valid_keys(:class, :parent, :aliases, :traits, :abstract)
     end
 
     def parent
