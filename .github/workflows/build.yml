@@ -37,6 +37,12 @@ jobs:
             rails: "5.1"
           - ruby: 3.0
             rails: "5.2"
+          - ruby: truffleruby
+            rails: "5.0"
+          - ruby: truffleruby
+            rails: "5.1"
+          - ruby: truffleruby
+            rails: "5.2"
 
     runs-on: 'ubuntu-latest'
 
